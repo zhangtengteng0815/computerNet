@@ -473,9 +473,29 @@
             IEEE802.11f
             IEEE802.11h
         6.14.7 WLAN MAC帧格式
+            MAC子层有两种工作方式：分布式协调功能（DCF）和点协调功能（PCF）
+            (1)Frame Control（FC，帧控制）字段
+                protocol version：协议版本字段
+                type：帧类型字段
+                subtype：帧子类型字段
+                to ds：到分布式系统的帧字段
+                from ds：来自分布式系统的帧字段
+                more fragment：更多分片字段
+                retry：重传字段
+                pwr mgt：power management，电源管理字段
+                more data：更多数据字段
+                wep：加密字段
+                order：顺序字段
+            (2)Duration/ID 持续时间字段
+            (3)Address 地址列表字段（MAC地址）
+                对应：接收者地址、发送者地址、源地址、目标地址
+            (4)Sequence Control 序列控制字段
+                由分段号和序列号组成，用于表示同一帧中不同分段的顺序，并用于识别数据包副本。
+            (5)Data 数据字段
+                发送或接收的信息。
+            (6)Frame Check Sum 帧校验序列
 
-
-
+第七章：网络层
 
 
 
