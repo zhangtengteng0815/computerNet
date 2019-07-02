@@ -1084,7 +1084,70 @@
             （4）创建路由表
             （5）维护路由表
         9.2.10 OSPF报头格式
+            OSPF报文主要分为：
+                Hello报文：用来发现OSPF邻居并维持OSPF邻居关系的报文。
+                DD（database description，数据库描述）报文：用来描述本路由器的链路状态数据库（LSDB），进行数据库同步的。
+                LSR（link state request，链路状态请求）报文：当两台路由器交换完DD报文后，知道对端路由器有哪些LSA是本LSDBB所没有的，以及哪些LSA已经失效，需要发送一个LSR报文，向对方请求所需的LSA。
+                LSU（link state update，链路状态更新）报文：用来向对端路由器发送所需的LSA。
+                LSAck（Link state acknowledgement，链路状态应答）报文：路由器收到对端发来的LSU报文后所发出的确认应答报文、内容是需要确认的LSA头部。
+            OSPF报文格式：
+                version：版本号
+                packet type：报文类型字段，标识对应报文的类型。
+                package length：包长度
+                router id：路由器id
+                area id：区域id
+                checksum：校验和字段
+                AuType：认证类型字段
+                Authentication：认证字段
+    9.3 IS-IS路由协议
+        IS-IS(intermediate system to intermediate system，中间系统到中间系统)
+        9.3.1 ISO网络基础
+            无连接网络服务（CLNS,connectionless network service）
+                无连接网络协议（CLNP,connectionless network protocol）
+            面向连接网络服务（CONS,connection-oriented network service）
+                面向连接协议（CONP,connection-oriented network protocol）
 
+            提供CLNS服务有CLMP、IS-IS和ES-IS
+                （1）CLNP
+                （2）IS-IS
+                    OSPF仅支持IP协议，专为TCP/IP网络设计
+                    IS-IS能够同时处理多个网络层协议（如IP何CLNP）
+                （3）ES-IS
+        9.3.2 IS-IS路由协议基本术语
+            （1）IS(intermediate system，中间系统)
+                就是TCP/IP网络中的路由器
+            （2）ES(end system，终端系统)
+                相当于TCP/IP网络中的主机系统
+            （3）RD(routing domain，路由域)
+                多个IS-IS协议的路由器组成的范围
+            （4）area(区域)
+                IS-IS路由域的细分单元
+            （5）LSDB(link state database，链路状态数据库)
+                网络内所有链路的状态构成了LSDB，在每一个IS中都至少有一个LSDB，
+                IS使用SPF算法，利用LSDB生成自己的路由
+            （6）LSPDU(link state protocol data unit，链路状态协议数据单元)
+                描述本路由器的链路状态信息
+            （7）DIS(designated IS，指定IS)
+                在广播或多路方式在网络上选举的，作为中间系统。
+            （8）NSAP(network service access point，网络服务接入点)
+                用来标识一个抽象的网络服务访问点，描述OSI模型的网络地址结构。
+                其分为两大部分：IDP域间部分和DSP域内服务部分。
+            （9）PDU(packet data unit，报文数据单元)
+                链路数据层传递的数据报文格式。
+                分为Hello PDU、LS PDU、CSN PDU、PSN PDU。
+                IS-IS协议直接承载在数据链路层上不需要经过三层协议封装。
+                OSPF协议承载在IP协议之上。
+            （10）Sys ID(system id，系统id)
+                标识唯一一台中间系统。
+            （11）NET(network entity title，网络实体标题)
+                特殊的NSAP地址
+            （12）IIH(IS to IS hello PDU，IS到IS间的Hello PDU)
+                进行邻居的发现、建立和维护。
+            （13）PSNP(partial sequence number PDU，部分序列号数据包)
+                用于确认链路数据信息。
+            （14）CSNP(complete sequence number PDU，完全序列号数据包)
+                用于发布完整的链路数据信息。
+        9.3.3 IS-IS路由及路由器类型
 
 
 
