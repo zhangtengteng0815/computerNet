@@ -1148,7 +1148,40 @@
             （14）CSNP(complete sequence number PDU，完全序列号数据包)
                 用于发布完整的链路数据信息。
         9.3.3 IS-IS路由及路由器类型
+            ISO网络中的路由选择级别
+                Level-0：ES与IS之间的路由
+                Level-1：同一区域IS之间的路由
+                Level-2：不同区域IS间路由
+                Level-3：不同IS-IS域间的路由
+            IS-IS路由器类型
+                L1路由器：IS-IS区域内的路由器
+                L2路由器：两个IS-IS区域间的路由器
+                L1/L2路由器：同时属于L1/L2路由器
+        9.3.4 IS-IS与OSPF区域及路由器邻接关系比较
+            IS-IS工作在数据链路层
+            OSPF工作在应用层，报文需要IP包格式进行封装
 
+            不同方面有：
+            （1）IS-IS可以有多个骨干区域
+                非骨干区域（通过L1/L2路由器）直接与骨干（L2路由器）相连
+            （2）区域边界不同
+            （3）不同区域间路由器的邻接关系不同
+        9.3.5 IS-IS PDU报头格式
+            IS-IS网络使用的PDU主要有：
+                IIH(IS-IS hello，IS-IS hello包)
+                LSP(link-state package，链路状态包)
+                SNP(sequence number package，序列号包)
+
+            通用报头格式说明：
+                intradomain routing protocoldiscriminator：域内路由选择协议鉴别符，用于标识网络层PDU的类型
+                length-indicator：长度标识符
+                version、protocol id extension：版本/协议id扩展
+                id length：id长度，用于标识NSAP和NET地址长度
+                PDU type：PDU类型
+                version：版本
+                reserved：保留位
+                maximum area address：最多区域地址，标识支持的最大区域数
+        9.3.6 IIH PDU包格式
 
 
 
