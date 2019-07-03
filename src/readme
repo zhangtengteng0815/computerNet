@@ -1182,8 +1182,74 @@
                 reserved：保留位
                 maximum area address：最多区域地址，标识支持的最大区域数
         9.3.6 IIH PDU包格式
+            用于建立和维持IS-IS路由器之间的邻接关系。
+            包括IS-IS PDU通用报头、IIH专用报头和可变字段三部分。
+            IIH专用报头部分包括发送者的系统ID、分配的区域地址和发送路由器已知的链路上邻居标识。
 
+            IIH有以下三种类型
+                Level-1 LAN IS-IS Hello PDU（类型号15）：广播网中L1路由器发送的IIH
+                Level-2 LAN IS-IS Hello PDU（类型号16）：广播网中L2路由器发送的IIH
+                点到点IS-IS Hello PDU（类型号17）：点对点网络上路由器发送的IIH
 
+            报头含义
+               reserved：保留字段
+               circuit type：电路类型字段，0x01表示L1路由器，0x10表示L2路由器，0x11表示L1/L2路由器。
+               source id：源ID字段。标识发送该IIH PDU包的源路由器SysID（系统ID）
+               holding time：保持时间。用来通知它的邻居路由器在认为这台路由器失效之前应用等待的时间。
+               PDU length：PDU报文长度
+               priority：优先级字段，标识本路由器在DIS选举中的优先级。
+               LAN ID：局域网ID字段
+               local circuit id：标识本地链路id
+        9.3.7 LSP PDU包格式
+            用来承载和泛洪路由器的链路状态信息
+            LSP分为：
+                Level-1 LSP（类型号为18）：由Level-1路由器产生，在Level-1区域泛洪
+                Level-2 LSP（类型号为20）：由Level-2路由器产生，在Level-2子域泛洪
+            LSP报头字段：
+                PDU length：PDU长度。
+                remaining lifetime：剩余生存时间字段。标识此LSP到期的生存时间。
+                LSP ID：用于标识不同的LSP和生成LSP的源路由器。其包括SysID、伪节点标识符和LSP编号三部分
+                sequence number：标识每个LSP包的序列号
+                checksum：用于接收端校验所传送LSP的完整性和正确性
+                P：分区字段，表示区域划分或者分段区域的修复位
+                ATT：区域关联字段，表示产生此LSP的路由器与多个区域相连。
+                OL：超载字段，表示本路由器因内在不足而导致LSDB不完整。
+                IS type：路由类型字段
+        9.3.8 SNP PDU包格式
+            SNP包含一个或多个LSP的汇总描述，用于确认邻居之间最新接收的LSP，作用类似于确认报文。
+            SNP分为CSNP(完整SNP)和PSNP(部分SNP)
+            报头字段：
+                PDU length：PDU报文长度
+                source id：标识发送该CSNP PDU的路由器SysID
+                start LSP ID：描述LSP范围中第一个LSP ID号
+                end LSP ID：描述LSP范围中最后一个LSP ID号
+        9.3.9 IS-IS PDU可变字段格式
+            可变字段部分就是各种PDU包真正内容部分，是整个PDU包的核心部分。
+            字段说明：
+                code：代码字段，标识PDU类型。
+                length：长度字段，标识value字段长度
+                value：值字段，表示实际承载的PDU内容
+        9.3.10 IS-IS的两种地址格式
+            NSAP地址格式
+                标识网络层服务，每一种服务对应一个NSAP地址。
+
+                NSAP地址由两部分组成：
+                IDP(inter-domain portion，域间部分)相当于ip地址的主网络部分
+                    AFI(authority and format id，机构与格式id)：用来标识地址格式和对应地址的分配机构
+                    IDI(inter-domain id，域间id)：用来标识、区分AFI字段下不同的域。
+                DSP(domain service portion，域服务部分)相当于ip地址中子网id、主机id和端口号总和
+                    HODSP(high order DSP，DSP高位)：用来在一个域中分割多个区域，相当于ip地址中的子网id部分
+                    SID(system id，系统id)：用来区分主机，通常以MAC地址进行标识，相当于ip地址中的主机id部分
+                    NSEL(network-selector，网络选择器)：用来指定选定的服务，相当于TCP协议中的端口号
+            NET地址格式
+                用来唯一地表示IS-IS路由选择域中的OSI主机，路由器使用NET地址来标识自己
+                NET地址分为：区域地址（area address）、系统id（system id）和NSEL（网络选择器）
+        9.3.11 IS-IS与OSPF的比较
+        9.3.12 IS-IS最短路径计算和路由表生成原理
+            IS-IS最短路径计算原理
+            IS-IS路由表的生成原理
+    9.4 BGP
+       BGP(border gateway protocol，边界网关协议)
 
 
 
