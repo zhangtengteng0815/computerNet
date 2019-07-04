@@ -1249,7 +1249,95 @@
             IS-IS最短路径计算原理
             IS-IS路由表的生成原理
     9.4 BGP
-       BGP(border gateway protocol，边界网关协议)
+        BGP(border gateway protocol，边界网关协议)
+        是一个包含独立路由策略的分离路由域间的无环路路由协议
+        主要用于大型网络和ISP运营商
+
+        9.4.1 BGP概述
+            BGP是一个设计在组织网络间（也就是路由域间，或者说是路由域边界）提供无环路的域间路由协议。
+            使用可靠的传输协议TCP179号端口（这是目的端口，本地端口可以随意）来传输BGP通信。
+            BGP主要用于连接一个本地网络到外部网络，以访问Internet或者其他公司网络。
+            使用路径矢量路由算法
+
+            具有以下特征：
+                是一种外部网关协议，OSPF、RIP属于内部网关协议，其着眼点不在于发现和计算路由，而是控制路由的传播和选择最佳路由。
+                使用TCP传输协议
+                支持CIDR无类别域间路由
+                路由更新时BGP只发送更新路由，减少BGP传播所占用的带宽，适用于在Internet上传播大量路由信息
+                BGP路由通过携带AS路径信息彻底解决路由环路问题
+                提供丰富的路由策略，能够对路由实现灵活的过滤和选择
+                易于扩展，能够适应网络新发展
+        9.4.2 BGP AS
+            （1）BGP AS号格式
+                Asplain（无格式AS）
+                Asdot（点分AS）
+            （2）保留和私有的AS号
+                私有AS号可以用于内部路由域，但不能传输到达Internet的通信
+        9.4.3 BGP地址簇模型
+        9.4.4 BGP speaker和peer的关系
+        9.4.5 BGP peer会话建立
+            状态更改：空闲-连接-活动-打开发送-打开接收-建立
+        9.4.6 BGP的路由属性
+            四类属性：
+                公认必须遵循
+                公认可选
+                可选过滤
+                可选非过滤
+            属性：
+                （1）源属性（ORIGIN）
+                    定义路由信息的来源，标记一条路由是怎么成为BGP路由的
+                    IGP:优先级最高，路由产生于本AS内
+                    EGP:优先级次之，路由通过EGP学到
+                    incomplete:优先级最低，路由来源无法确定
+                （2）AS路径属性（AS_PATH）
+                    按一定次序记录了某条路由从本地到目的地址所要经过的所有AS号
+                （3）下一跳属性（NEXT_HOP）
+                （4）MED（MULTI_EXIT_DISC）
+                    多出口度量，用于判断进入AS时的最佳路由
+                （5）本地优先属性（LOCAL_PREF）
+                    用于判断流量离开AS时最佳路由
+                （6）团体属性（COMMUNITY）
+                    用于简化路由策略的应用和降低维护管理的难度
+        9.4.7 BGP的消息类型及报文格式
+            报头字段：
+                marker：标明BGP报文边界，相当于一个报文的头部标识符
+                length：标识BGP消息总长度
+                type：标识BGP消息类型
+            五种消息报文格式：
+                open消息报文格式
+                    open消息是TCP连接建立后发生的第一个消息，用于建立BGP对等体之间的连接关系
+                    字段：
+                        version：版本
+                        my autonomous system：本地AS字段，标识本地AS号
+                        hold time：保持时间
+                        BGP identifier：BGP标识符
+                        opt Parma len：可选参数长度
+                        optional parameter：可选参数，用于多协议扩展
+                update消息报文格式
+                    update消息用于在对等体之间交换路由信息，既可以发布可达路由信息，也可以撤销不可达路由信息
+                    字段：
+                        UNfeasible routes length：不可达路由字段长度
+                        withrawn route：不可达路由列表
+                        total path attribute length：路径属性字段的长度
+                        path attribute：与NLRI相关的所有路径属性列表
+                        NLRI：可达路由的前缀和前缀长度二元组
+                notification消息及报文格式
+                    当BGP检测到错误状态时，就像对等体发出notification消息
+                    字段：
+                        error code：差错码
+                        error subcode：差错字码
+                        data：错误消息内容
+                keepalive消息报文格式
+                    保持活跃消息，用于保持连接的有效性
+                route-refresh消息报文格式
+                    用来要求对等体重新发送指定地址簇的路由信息。
+                    字段：
+                        AFI：address family identifier，地址簇标识，用于标识所采用的地址簇类型
+                        Res：保留
+                        SAFI：subsequent address family identifier，子地址簇标识，用于标识子地址簇类型
+
+第十章：传输层
+
 
 
 
